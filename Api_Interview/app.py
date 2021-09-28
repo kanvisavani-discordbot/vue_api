@@ -2,6 +2,7 @@ from flask import Flask
 import json
 from flask import request
 from datetime import datetime
+import psycopg2
 
 # Create an instance of the Flask class that is the WSGI application.
 # The first argument is the name of the application module or package,
@@ -12,11 +13,7 @@ app = Flask(__name__)
 # To add other resources, create functions that generate the page contents
 # and add decorators to define the appropriate resource locators for them.
 
-import pyodbc as odbccon
-conn = odbccon.connect('Driver={SQL Server};'
-                      'Server=DESKTOP-1VDKEN9\SQLEXPRESS;'
-                      'Database=bt_interviews;'
-                      'Trusted_Connection=yes;')
+conn = psycopg2.connect(host="ec2-54-211-160-34.compute-1.amazonaws.com",database="d2dk8jrg0rkivc",user="fggzjksrvftylq",password="691b44a66cfc74d46d3a40e0faba3e00ae8cb6aafc1e3ed7a9b755de6ee5eb4c")
 
 @app.route('/')
 @app.route('/hello')
@@ -27,7 +24,7 @@ def hello():
 @app.route('/getUsers')
 def getUsers():
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM bt_interviews.dbo.vw_users')
+    cursor.execute('SELECT * FROM vw_users')
     columns = [column[0] for column in cursor.description]
     results = []
     for row in cursor.fetchall():
@@ -37,7 +34,7 @@ def getUsers():
 @app.route('/getEventDates')
 def getEventDates():
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM bt_interviews.dbo.tbl_eventDates')
+    cursor.execute('SELECT * FROM tbl_eventDates')
     columns = [column[0] for column in cursor.description]
     results = []
     for row in cursor.fetchall():
@@ -47,7 +44,7 @@ def getEventDates():
 @app.route('/setEvents')
 def setEvents():
     cursor = conn.cursor()
-    insert_records = '''INSERT INTO bt_interviews.dbo.tbl_events (eventDate_id,user_id)
+    insert_records = '''INSERT INTO tbl_events (eventDate_id,user_id)
                 VALUES(?,?) '''
     cursor.execute(insert_records,request.args['eventDate_id'],request.args['user_id'])
     conn.commit()
@@ -60,7 +57,7 @@ def setUsers():
                 VALUES(?) '''
     cursor.execute(insert_records,request.args['name'])
     conn.commit()
-    cursor.execute('SELECT Top 1 id FROM bt_interviews.dbo.tbl_users ORDER BY entered_date DESC')
+    cursor.execute('SELECT Top 1 id FROM tbl_users ORDER BY entered_date DESC')
     columns = [column[0] for column in cursor.description]
     results = []
     for row in cursor.fetchall():
@@ -70,7 +67,7 @@ def setUsers():
 @app.route('/getEvents')
 def getEvents():
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM bt_interviews.dbo.tbl_events')
+    cursor.execute('SELECT * FROM tbl_events')
     columns = [column[0] for column in cursor.description]
     results = []
     for row in cursor.fetchall():
@@ -80,7 +77,7 @@ def getEvents():
 @app.route('/setEventDates', methods = ['Get'])
 def setEventDates():
     cursor = conn.cursor()
-    insert_records = '''INSERT INTO bt_interviews.dbo.tbl_eventDates (eventDate,eventTime)
+    insert_records = '''INSERT INTO tbl_eventDates (eventDate,eventTime)
                 VALUES(?,?) '''
     cursor.execute(insert_records,datetime.strptime(request.args['eventDate'],'%d/%m/%y'),datetime.strptime(request.args['eventTime'],'%H:%M:%S'))
     conn.commit()
