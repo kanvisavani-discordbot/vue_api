@@ -13,7 +13,7 @@ app = Flask(__name__)
 # To add other resources, create functions that generate the page contents
 # and add decorators to define the appropriate resource locators for them.
 
-conn = psycopg2.connect(host="ec2-54-211-160-34.compute-1.amazonaws.com",database="d2dk8jrg0rkivc",user="fggzjksrvftylq",password="691b44a66cfc74d46d3a40e0faba3e00ae8cb6aafc1e3ed7a9b755de6ee5eb4c")
+conn = psycopg2.connect(host="ec2-3-218-47-9.compute-1.amazonaws.com",database="dh0gm3naskf4q",user="rbjudxbmcnwrqn",password="10c9c3a0e06bc18ca69e4c439c2c3300c3a68009e85de153cd90942bcce677fb")
 
 @app.route('/')
 @app.route('/hello')
