@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Api_Interview", "Api_Interview\Api_Interview.pyproj", "{E34B63D3-07A6-4010-8817-884040F86CD3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72C1C22A-FBB5-4854-9DA1-42F399CA4797}"
+	ProjectSection(SolutionItems) = preProject
+		requirements.txt = requirements.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
